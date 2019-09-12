@@ -1,0 +1,87 @@
+IFDポインタ：01 2C 02 D8 (0x012C02D8)
+エントリカウント：0E 00 (=14)
+IFD-0: 
+00 01 (ImageWidth)
+03 00 (Short)
+01 00 00 00 (2 bytes)
+58 0C 00 00 (= 3,160) 
+
+IFD-1:
+01 01 (ImageLength)
+03 00 (Short)
+01 00 00 00 (2 bytes)
+1A 08 00 00 (= 2,074)
+
+IFD-2:
+02 01 (BitsPerSample)
+03 00 (Short)
+03 00 00 00 (= SamplesPerPixel)
+86 03 2C 01 (Offset to 0x012C0386 = 08 00 08 00 08 00 = RGBそれぞれ8bit)
+
+IFD-3:
+03 01 (Compression)
+03 00 (Short)
+01 00 00 00 (by default)
+01 00 00 00 (1 = No Compression)
+
+IFD-4:
+06 01 (PhotometricInterpretation)
+03 00 (Short)
+01 00 00 00 (by default)
+02 00 00 00 (2 = RGBダイレクトカラー)
+
+IFD-5:
+11 01 (StripOffsets)
+04 00 (Long)
+01 00 00 00 (ストリップ数1個)
+08 00 00 00 (Offset to 0x00000008)
+
+IFD-6:
+12 01 (Orientation) Not required
+03 00 (Short)
+01 00 00 00 (by default)
+01 00 00 00  (Saved as shown)
+
+IFD-7:
+15 01 (SamplesPerPixel) Not required
+03 00 (Short)
+01 00 00 00 (2 bytes)
+03 00 00 00 (3 = ピクセルに3種類のデータが含まれる)
+
+IFD-8: 
+16 01 (RowsPerStrip)
+03 00 (Short)
+01 00 00 00 (2 bytes)
+1A 08 00 00 (= ストリップは2,074行からなる)
+
+IFD-9:
+17 01 (StripByteCounts)
+04 00 (Long)
+01 00 00 00 (4 bytes)
+D0 02 2C 01 (= 19,661,520 bytes)
+
+IFD-10:
+1A 01 (XResolution)
+05 00 (Rational)
+01 00 00 00 (by default)
+8C 03 2C 01 (Offset to 0x012C038C = 419,430,400 pixel/2097152 inch = 200 ppi)
+
+IFD-11:
+1B 01 (YResolution)
+05 00 (Rational)
+01 00 00 00 (by default)
+44 1E 43 01 (Offset to 0x012C0394 = 419,430,400 pixel/2097152 inch = 200 ppi)
+
+IFD-12: 
+1C 01 (PlanarConfiguration) Not required
+03 00 (Short)
+01 00 00 00 (by default)
+01 00 00 00 (1 = ピクセル優先モード = ピクセルごとにR-G-Bの順番に保存されている)
+
+IFD-13:
+28 01 (ResolutionUnit)
+03 00 (Short)
+01 00 00 00 (by default)
+02 00 00 00 (= inch)
+
+次のIFDポインタ：00 00 00 00（存在しない）
