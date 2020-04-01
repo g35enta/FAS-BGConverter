@@ -85,21 +85,6 @@ namespace FAS_BGConverter
 						ori.ReadScanline(buffer[j], j);
 					}
 					Console.WriteLine("Finished reading image");
-#if DEBUG
-					Console.WriteLine("ImageWidth: " + imageWidth[0].ToString());
-					Console.WriteLine("ImageLength: " + imageLength[0].ToString());
-					Console.WriteLine("BitsPerSample: " + bitsPerSample[0].ToString());
-					Console.WriteLine("Compression: " + compression[0].ToString());
-					Console.WriteLine("PhotometricInterpretation: " + photometric[0].ToString());
-					Console.WriteLine("SamplesPerPixel: " + samplesPerPixel[0].ToString());
-					Console.WriteLine("RowsPerStrip: " + rowsPerStrip[0].ToString());
-					Console.WriteLine("XResolution: " + xResolution[0].ToString());
-					Console.WriteLine("YResolution: " + yResolution[0].ToString());
-					Console.WriteLine("PlanarConfiguration: " + planarConfig[0].ToString());
-					Console.WriteLine("ResolutionUnit: " + resolutionUnit[0].ToString());
-					Console.WriteLine("ScanlineSize: " + scanlineSize.ToString());
-					Console.WriteLine("NewScanlineSize: " + newScanlineSize.ToString());
-#endif
 
 					using (Tiff output = Tiff.Open(convertedTiffPath, "w"))
 					{
