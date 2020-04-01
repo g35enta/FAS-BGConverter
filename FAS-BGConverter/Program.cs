@@ -19,6 +19,8 @@ namespace FAS_BGConverter
 			Console.WriteLine("=====================================================");
 			Console.WriteLine("");
 
+			char[] bars = { '／', '―', '＼', '―' };
+
 			// ドラッグアンドドロップされたファイルのファイルパスを取得
 			// 先頭に格納される実行ファイル名を除く
 			string[] filePath = Environment.GetCommandLineArgs();
@@ -72,14 +74,18 @@ namespace FAS_BGConverter
 					FieldValue[] resolutionUnit = ori.GetField(TiffTag.RESOLUTIONUNIT);
 
 					int scanlineSize = ori.ScanlineSize();
+					int newScanlineSize = scanlineSize / 3;
 					// buffer = [行][各行のscanline]
 					byte[][] buffer = new byte[imageLength[0].ToInt()][];
+
+					Console.WriteLine("Started reading image ...");
 					for (int j = 0; j < imageLength[0].ToInt(); j++)
 					{
 						buffer[j] = new byte[scanlineSize];
 						ori.ReadScanline(buffer[j], j);
 					}
-
+					Console.WriteLine("Finished reading image");
+#if DEBUG
 					Console.WriteLine("ImageWidth: " + imageWidth[0].ToString());
 					Console.WriteLine("ImageLength: " + imageLength[0].ToString());
 					Console.WriteLine("BitsPerSample: " + bitsPerSample[0].ToString());
@@ -91,6 +97,9 @@ namespace FAS_BGConverter
 					Console.WriteLine("YResolution: " + yResolution[0].ToString());
 					Console.WriteLine("PlanarConfiguration: " + planarConfig[0].ToString());
 					Console.WriteLine("ResolutionUnit: " + resolutionUnit[0].ToString());
+					Console.WriteLine("ScanlineSize: " + scanlineSize.ToString());
+					Console.WriteLine("NewScanlineSize: " + newScanlineSize.ToString());
+#endif
 
 					using (Tiff output = Tiff.Open(convertedTiffPath, "w"))
 					{
@@ -98,8 +107,6 @@ namespace FAS_BGConverter
 						output.SetField(TiffTag.IMAGELENGTH, imageLength[0]);
 						output.SetField(TiffTag.BITSPERSAMPLE, bitsPerSample[0]);
 						output.SetField(TiffTag.COMPRESSION, compression[0]);
-						output.SetField(TiffTag.PHOTOMETRIC, 1);
-						output.SetField(TiffTag.SAMPLESPERPIXEL, 1);
 						output.SetField(TiffTag.ROWSPERSTRIP, rowsPerStrip[0]);
 						output.SetField(TiffTag.PLANARCONFIG, planarConfig[0]);
 						output.SetField(TiffTag.RESOLUTIONUNIT, resolutionUnit[0]);
@@ -109,10 +116,21 @@ namespace FAS_BGConverter
 						output.SetField(TiffTag.YRESOLUTION, 520);
 
 						// グレイスケールに変更
+						output.SetField(TiffTag.PHOTOMETRIC, Photometric.MINISBLACK);
+						output.SetField(TiffTag.SAMPLESPERPIXEL, 1);
+
+						byte[][] newBuffer = new byte[imageLength[0].ToInt()][];
+						Console.WriteLine("Started generating image ...");
 						for (int j = 0; j < imageLength[0].ToInt(); j++)
 						{
-							output.WriteScanline(buffer[j], j);
+							newBuffer[j] = new byte[newScanlineSize];
+							for (int k = 0; k < newScanlineSize; k++)
+							{
+								newBuffer[j][k] = buffer[j][3 * k];
+							}
+							output.WriteScanline(newBuffer[j], j);
 						}
+						Console.WriteLine("Finished generating image");
 					}
 				}
 
